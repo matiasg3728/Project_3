@@ -1,4 +1,4 @@
-class ProjectsController < ApplicationController
+class ProjectController < ApplicationController
 
 	# All the requests here will deal with projects
 
@@ -8,13 +8,13 @@ class ProjectsController < ApplicationController
 
 	end
 
-	get '/projects' do
+	get '/list' do
 		# This page will show a list of the User's projects
 		content_type :json
 		
 		user_id = session[:user_id]
 
-		@projects = Projects.find_by(user_id)
+		@projects = Project.find_by(user_id: user_id)
 		@projects.to_json	
 	end
 

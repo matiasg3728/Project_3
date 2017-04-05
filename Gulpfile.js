@@ -13,7 +13,7 @@ return browserify('./client/clientReact/main.js')
 })
 
 gulp.task('watch', function(){
-  gulp.watch(['./clientReact/*.js'], ['react'])
+  gulp.watch(['./client/clientReact/*.js'], ['react'])
 })
 
 gulp.task('default', ['react', 'watch'])

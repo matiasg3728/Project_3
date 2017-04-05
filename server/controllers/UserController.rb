@@ -4,11 +4,12 @@ class UserController < ApplicationController
 	# /home
 	get '/' do
 		# This page will show a list of the User's projects
-
+		p "get rout in user controller"
 		if session[:logged_in]
 			puts "if statment at '/' "
 			@username = session[:username];
-			redirect '/forem'
+			redirect '/projects'
+			
 
 		else
 			puts "else statement at '/' "
@@ -51,12 +52,12 @@ class UserController < ApplicationController
 		pPassword = params[:password]
 
 		user = User.find_by(username: pUsername)
-
+		p user
 		if user && user.authenticate(pPassword)
 			
 			session[:logged_in] = true
 			session[:username] = pUsername;
-			session[:User_ID] = user.User_ID
+			session[:user_id] = user.user_id
 
 			redirect '/home'
 		else

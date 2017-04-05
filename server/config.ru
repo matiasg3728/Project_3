@@ -10,4 +10,4 @@ require './models/CopyModel'
 
 map('/'){run ApplicationController}
 map('/home'){run UserController}
-map('/forem'){run UserController}
+map('/projects'){run ProjectController}

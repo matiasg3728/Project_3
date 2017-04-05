@@ -2,39 +2,36 @@ var React = require('react')
 var ReactDOM = require('react-dom')
 var request = require('superagent')
 
+console.log("Connected to main.js")
+
 var MainComponent = React.createClass({
   getInitialState: function(){
-    return { homePage:true, werkPage:false}
+    return {
+    session:{
+      username:'',
+      user_id:0,
+    },
+    project_page:true,
+    copy_page:false,
+    projects:[], 
+    copies:[]
+  }
   },
   componentDidMount: function(){
     var state = this.state;
     var self = this;
-    request.get('http://localhost:9393/')
+    request.get('http://localhost:9393/projects/list')
       .end(function(err, data){
-        state.data = data.body;
+        console.log(data + " this is data")
+        state.projects = data.body;
         self.setState(state)
       })
-  },
-  createItem: function(item){
-    var state = this.state;
-    var self = this;
-    request.post('http://localhost:9393/items')
-      .send("title=" + item)
-      .end(function(err, data){
-        console.log(data);
-      })
+
   },
   render: function(){
     return (
       <div>
-        <FormComponent onItemSubmit={this.createItem}/>
-        <ul>
-          {this.state.data.map(function(item, i){
-            return(
-              <li key={i}>{item.title}</li>
-            )
-          })}
-        </ul>
+        {this.state.projects}
       </div>
     )
   }

@@ -6,7 +6,10 @@ class CopyController < ApplicationController
 
 	end
 
-	get '/copies' do
+	get '/copies/:id' do
+
+		content_type :json
+		id = params[:id]
 
 		
 

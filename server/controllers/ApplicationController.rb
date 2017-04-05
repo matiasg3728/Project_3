@@ -13,7 +13,8 @@ class ApplicationController < Sinatra::Base
 
 	set :session_secret, "session"
 	set :views, File.expand_path('../../views', __FILE__);
-	
+	set :public_dir, File.expand_path('../../public', __FILE__) 
+
 	not_found do
 		"404"
 	end
