@@ -1,17 +1,15 @@
 var React = require('react')
 var ReactDOM = require('react-dom')
 var request = require('superagent')
-var FormComponent = require('./Form')
-
 
 var MainComponent = React.createClass({
   getInitialState: function(){
-    return { data: []}
+    return { homePage:true, werkPage:false}
   },
   componentDidMount: function(){
     var state = this.state;
     var self = this;
-    request.get('http://localhost:9393/items')
+    request.get('http://localhost:9393/')
       .end(function(err, data){
         state.data = data.body;
         self.setState(state)

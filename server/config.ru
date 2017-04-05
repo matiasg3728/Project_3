@@ -2,7 +2,7 @@ require 'sinatra/base'
 
 require './controllers/ApplicationController'
 require './controllers/UserController'
-require './controllers/ForemController'
+require './controllers/ProjectController'
 
 require './models/UserModel'
 require './models/ProjectModel'

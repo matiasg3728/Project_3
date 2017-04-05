@@ -56,7 +56,7 @@ class UserController < ApplicationController
 			
 			session[:logged_in] = true
 			session[:username] = pUsername;
-			session[:user_id] = user.id
+			session[:User_ID] = user.User_ID
 
 			redirect '/home'
 		else
