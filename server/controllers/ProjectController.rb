@@ -12,10 +12,12 @@ class ProjectController < ApplicationController
 		# This page will show a list of the User's projects
 		content_type :json
 		
-		user_id = session[:user_id]
+		pUser_id = session[:user_id]
 
-		@projects = Project.find_by(user_id: user_id)
-		@projects.to_json	
+		@projects = Project.where("user_id = #{pUser_id}")
+
+		@projects.to_json
+			
 	end
 
 	post '/' do
@@ -23,11 +25,14 @@ class ProjectController < ApplicationController
 		# This will allow users to make a new project
 		@project = Project.new
 		@project.name = params[:name]
-		@project.User_ID = session[User_ID]
+		@project.user_id = session[:user_id]
 		@project.save
 
-		p @projects
+		@projects = Project.where("user_id = #{pUser_id}")
 
+		@projects.to_json
+
+		
 	end
 
 	delete '/:id' do

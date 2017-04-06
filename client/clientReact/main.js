@@ -1,6 +1,8 @@
 var React = require('react')
 var ReactDOM = require('react-dom')
 var request = require('superagent')
+var ProjectFormComponent = require('./ProjectForm')
+var ProjectListComponent = require('./ProjectList')
 
 console.log("Connected to main.js")
 
@@ -28,10 +30,29 @@ var MainComponent = React.createClass({
       })
 
   },
+  createItem: function(project){
+  var state = this.state;
+  var self = this;
+  request.post('http://localhost:9393/projects')
+    .send("name=" + project)
+    .end(function(err, data){
+      var json_txt = data.text
+      console.log(json_txt +' <= json_txt')
+      json_txt = JSON.parse(json_txt); 
+      state.projects = json_txt;
+      console.log(state.projects)
+      self.setState(state)
+    })
+  }, 
   render: function(){
+    console.log(this.state.projects)
     return (
       <div>
-        {this.state.projects}
+
+        <ProjectFormComponent onItemSubmit={this.createItem}/>
+
+        <ProjectListComponent projects={this.state.projects}/>
+        
       </div>
     )
   }
