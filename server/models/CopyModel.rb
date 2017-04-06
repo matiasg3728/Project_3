@@ -1,4 +1,4 @@
-class Project < ActiveRecord::Base
+class Copy < ActiveRecord::Base
 
 belongs_to :project
 

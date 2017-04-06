@@ -12,9 +12,9 @@ class ProjectController < ApplicationController
 		# This page will show a list of the User's projects
 		content_type :json
 		
-		pUser_id = session[:user_id]
+		@user = User.find(session[:user_id])
 
-		@projects = Project.where("user_id = #{pUser_id}")
+		@projects = @user.projects	
 
 		@projects.to_json
 			
@@ -28,7 +28,9 @@ class ProjectController < ApplicationController
 		@project.user_id = session[:user_id]
 		@project.save
 
-		@projects = Project.where("user_id = #{pUser_id}")
+		@user = User.find(session[:user_id])
+
+		@projects = @user.projects
 
 		@projects.to_json
 

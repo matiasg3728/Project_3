@@ -9,13 +9,13 @@ var ProjectListComponent = React.createClass({
     event.preventDefault();
   },
   render: function(){
-
     var list = []
 
-    this.props.projects.map(function(project){      
-    list.push(<li key={project.project_id}>{project.name}</li>)
-            
-  })
+    this.props.projects.map(function(project){
+    list.push(<li key={project.project_id}> <a href='#'>{project.name}</a> </li>)       
+    })
+
+    console.log(list)
 
     return(
 

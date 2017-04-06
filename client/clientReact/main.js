@@ -9,10 +9,6 @@ console.log("Connected to main.js")
 var MainComponent = React.createClass({
   getInitialState: function(){
     return {
-    session:{
-      username:'',
-      user_id:0,
-    },
     project_page:true,
     copy_page:false,
     projects:[], 
@@ -22,7 +18,7 @@ var MainComponent = React.createClass({
   componentDidMount: function(){
     var state = this.state;
     var self = this;
-    request.get('http://localhost:9393/projects/list')
+    request.get('/projects/list')
       .end(function(err, data){
         console.log(data + " this is data")
         state.projects = data.body;
@@ -33,11 +29,11 @@ var MainComponent = React.createClass({
   createItem: function(project){
   var state = this.state;
   var self = this;
-  request.post('http://localhost:9393/projects')
+  request.post('/projects/')
     .send("name=" + project)
     .end(function(err, data){
       var json_txt = data.text
-      console.log(json_txt +' <= json_txt')
+      console.log(json_txt)
       json_txt = JSON.parse(json_txt); 
       state.projects = json_txt;
       console.log(state.projects)
