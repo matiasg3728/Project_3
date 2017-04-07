@@ -3,17 +3,21 @@ class CopyController < ApplicationController
 	# /copy
 	get '/' do
 
-		erb :home
+		@copies = Copy.all
+		@copies.to_json
 
 	end
 
 	# just return the specific copy accoding to the passed copy_id
 	get '/:id' do
+
 		content_type :json
 
 		copy_id = params[:id]
 
-		@copy = Copies.find(copy_id)
+		@copy = Copy.find(copy_id)
+
+		@copy.to_json
 
 	end
 
@@ -70,7 +74,7 @@ class CopyController < ApplicationController
 	delete '/:id' do
 
 		id = params[:id]
-		
+
 		@copy = Copy.find(id)
 		@copy.destroy
 
