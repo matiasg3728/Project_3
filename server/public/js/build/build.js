@@ -8,10 +8,18 @@ var CopyButtonBarComponent = React.createClass({
 	displayName: 'CopyButtonBarComponent',
 
 
-	save: function () {},
-	copy: function () {},
-	create_new: function () {},
-	project_page_direct: function () {},
+	save: function () {
+		this.props.save();
+	},
+	copy: function () {
+		this.props.copy();
+	},
+	// create_new: function(){
+
+	// },
+	project_page_direct: function () {
+		this.props.project_page_direct();
+	},
 
 	render: function () {
 		return React.createElement(
@@ -26,11 +34,6 @@ var CopyButtonBarComponent = React.createClass({
 				'button',
 				{ onClick: this.copy() },
 				'Copy'
-			),
-			React.createElement(
-				'button',
-				{ onClick: this.create_new() },
-				'New'
 			),
 			React.createElement(
 				'button',
@@ -85,7 +88,7 @@ var CopyListComponent = React.createClass({
   },
   handleClick: function (id) {
     event.preventDefault();
-    console.log(id);
+    console.log(id + ' this is the id sent from copy list');
     this.props.show_document(id);
     //this.props.goCopyPage(id)
   },
@@ -155,57 +158,75 @@ var CopyPageComponent = React.createClass({
 
   // All of these functions communicate with the CopyButtonBarComponent
   // And update current_document
-  save: function (txt) {
+  save: function () {
     // updates the state of current_document.document
     // sends a patch request
+    var state = this.state;
+    var self = this;
+    var txt = this.state.current_txt;
+    var id = this.props.project_id;
+
+    request.patch('/copy/' + id).send("document=" + txt).end(function (err, data) {
+      console.log(data.body);
+      // var json_txt = data.text
+      //  console.log(json_txt)
+      // json_txt = JSON.parse(json_txt); 
+      // state.projects = json_txt;
+      // console.log(state.projects)
+      //self.setState(state)
+    });
   },
-  copy: function (txt) {
+  copy: function () {
     // Creates a new Copy of the current_document.document
     // sends a post request
 
     var state = this.state;
     var self = this;
-    var txt = this.state.txt;
+    var txt = this.state.current_txt;
     var id = this.props.project_id;
 
     request.post('/copy/' + id).send("document=" + txt).end(function (err, data) {
-      var json_txt = data.text;
-      console.log(json_txt);
-      json_txt = JSON.parse(json_txt);
-      state.projects = json_txt;
-      console.log(state.projects);
-      self.setState(state);
+      console.log(data.body);
+      // var json_txt = data.text
+      //  console.log(json_txt)
+      // json_txt = JSON.parse(json_txt); 
+      // state.projects = json_txt;
+      // console.log(state.projects)
+      //self.setState(state)
     });
   },
-  create_new: function () {
-    // Creates a new blank document
-    // Sends a post request
+  // create_new: function(){
+  //   	// Creates a new blank document
+  //   	// Sends a post request
 
-    var state = this.state;
-    var self = this;
-    var id = // project_id prop
+  //   	var state = this.state;
+  // 		var self = this;
+  // 		var id = // project_id prop
 
-    request.post('/projects/').send("name=" + project).end(function (err, data) {
-      var json_txt = data.text;
-      console.log(json_txt);
-      json_txt = JSON.parse(json_txt);
-      state.projects = json_txt;
-      console.log(state.projects);
-      self.setState(state);
-    });
-  },
+  // 		request.post('/copy')
+  //   	.send("document=" + )
+  //  		.end(function(err, data){
+  //     		var json_txt = data.text
+  //    		console.log(json_txt)
+  //     		json_txt = JSON.parse(json_txt); 
+  //     		state.projects = json_txt;
+  //     		console.log(state.projects)
+  //     		self.setState(state)
+  //     	})    	
+  //   },
   project_page_direct: function () {
     // This will use a Prop passed down from
     // the main component to switch back to the 
     // project page.  It will also reset this component's
     // state.
+    this.props.goProjectPage;
   },
   // ------------------------------------------------------------ \\
   show_document: function (copy_id) {
     var state = this.state;
     var self = this;
     var id = copy_id;
-    console.log(id);
+    console.log(id + ' this is the copy_id within');
     request.get('/copy/' + id).end(function (err, data) {
       console.log(data.body);
       console.log("^ data body inside show doc");
@@ -226,7 +247,7 @@ var CopyPageComponent = React.createClass({
     return React.createElement(
       'div',
       null,
-      React.createElement(CopyButtonBarComponent, { save: this.save, copy: this.copy, create_new: this.create_new, project_page_direct: this.project_page_direct }),
+      React.createElement(CopyButtonBarComponent, { save: this.save, copy: this.copy, project_page_direct: this.project_page_direct }),
       React.createElement(CopyListComponent, { copies: this.state.copies, show_document: this.show_document }),
       React.createElement(CopyFormComponent, { update_doc: this.update_doc, document_txt: this.state.current_txt })
     );

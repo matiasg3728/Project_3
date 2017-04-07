@@ -44,7 +44,11 @@ class CopyController < ApplicationController
 	# their copy or makes a new one on the copy page
 	post '/:id' do
 
-		project_id = params[:id]
+		copy_id = params[:id]
+
+		@oCopy
+
+		project_id = .project_id
 
 		@copy = Copy.new
 
